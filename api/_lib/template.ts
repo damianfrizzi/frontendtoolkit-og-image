@@ -7,11 +7,11 @@ const twOptions = { folder: "svg", ext: ".svg" };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 const rglr = readFileSync(
-  `${__dirname}/../_fonts/Inter-Regular.woff2`
+  `${__dirname}/../_fonts/IBMPlexSans-Regular.woff2`
 ).toString("base64");
-const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString(
-  "base64"
-);
+const bold = readFileSync(
+  `${__dirname}/../_fonts/IBMPlexSans-Bold.woff2`
+).toString("base64");
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
   "base64"
 );
@@ -28,14 +28,14 @@ function getCss(theme: string, fontSize: string) {
   }
   return `
     @font-face {
-        font-family: 'Inter';
+        font-family: 'IBM Plex Sans';
         font-style:  normal;
         font-weight: normal;
         src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
     }
 
     @font-face {
-        font-family: 'Inter';
+        font-family: 'IBM Plex Sans';
         font-style:  normal;
         font-weight: bold;
         src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
@@ -100,7 +100,7 @@ function getCss(theme: string, fontSize: string) {
     }
     
     .heading {
-        font-family: 'Inter', sans-serif;
+        font-family: 'IBM Plex Sans', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground};
@@ -115,6 +115,10 @@ export function getHtml(parsedReq: ParsedRequest) {
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
         ${getCss(theme, fontSize)}
     </style>
