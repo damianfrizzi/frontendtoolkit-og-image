@@ -56,19 +56,13 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
 function getDefaultImages(images: string[], theme: Theme): string[] {
   const defaultImage =
     theme === "light"
-      ? "https://www.fetoolkit.io/assets/safari-pinned-tab.svg"
-      : "https://www.fetoolkit.io/assets/safari-pinned-tab.svg";
-
-  // For now we ignore the images parameter
-  return [defaultImage];
+      ? "https://www.fetoolkit.io/assets/logo-light.svg"
+      : "https://www.fetoolkit.io/assets/logo-dark.svg";
 
   if (!images || !images[0]) {
     return [defaultImage];
   }
-  if (
-    !images[0].startsWith("https://assets.vercel.com/") &&
-    !images[0].startsWith("https://assets.zeit.co/")
-  ) {
+  if (!images[0].startsWith("https://www.fetoolkit.io/")) {
     images[0] = defaultImage;
   }
   return images;
