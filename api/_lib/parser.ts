@@ -3,17 +3,17 @@ import { ParsedRequest, Theme } from "./types";
 
 export function parseRequest(req: IncomingMessage) {
   console.log("HTTP " + req.url);
-  const url = Buffer.from((req.url ?? '/').slice(1), 'base64').toString()
-  const search = url.slice(url.lastIndexOf('?'))
-  const pathname = url.replace(search, '');
-  const searchParams = new URLSearchParams(search)
-  const fontSize = searchParams.get('fontSize')
-  const theme = searchParams.get('theme')
-  const images = searchParams.getAll('images')
-  const widths = searchParams.getAll('widths')
-  const heights = searchParams.getAll('heights')
-  const md = searchParams.get('md')
-  
+  const url = Buffer.from((req.url ?? "/").slice(1), "base64").toString();
+  const search = url.slice(url.indexOf("?theme"));
+  const pathname = url.replace(search, "");
+  const searchParams = new URLSearchParams(search);
+  const fontSize = searchParams.get("fontSize");
+  const theme = searchParams.get("theme");
+  const images = searchParams.getAll("images");
+  const widths = searchParams.getAll("widths");
+  const heights = searchParams.getAll("heights");
+  const md = searchParams.get("md");
+
   if (Array.isArray(fontSize)) {
     throw new Error("Expected a single fontSize");
   }
