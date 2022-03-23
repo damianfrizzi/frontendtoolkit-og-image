@@ -5,7 +5,7 @@ import { ParsedRequest, Theme } from "./types";
 export function parseRequest(req: IncomingMessage) {
   console.log("HTTP " + req.url);
   const { pathname, query } = parse(
-    req.url?.replace(/&amp;/g, "&") || "/",
+    req.url?.replace(/&amp;/g, "&").replace(/&amp%3B/g, "&") || "/",
     true
   );
   const { fontSize, images, widths, heights, theme, md } = query || {};
