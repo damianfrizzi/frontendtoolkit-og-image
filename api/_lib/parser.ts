@@ -1,18 +1,19 @@
 import { IncomingMessage } from "http";
-import { parse } from "url";
 import { ParsedRequest, Theme } from "./types";
 
 export function parseRequest(req: IncomingMessage) {
   console.log("HTTP " + req.url);
-  const { pathname, query } = parse(
-    req.url
-      ?.replace(/&amp;/g, "&")
-      .replace(/&amp%3B/g, "&")
-      .replace(/amp%3B/g, "&") || "/",
-    true
-  );
-  const { fontSize, images, widths, heights, theme, md } = query || {};
-
+  const url = Buffer.from((req.url ?? '/').slice(1), 'base64').toString()
+  const search = url.slice(url.lastIndexOf('?'))
+  const pathname = url.replace(search, '');
+  const searchParams = new URLSearchParams(search)
+  const fontSize = searchParams.get('fontSize')
+  const theme = searchParams.get('theme')
+  const images = searchParams.getAll('images')
+  const widths = searchParams.getAll('widths')
+  const heights = searchParams.getAll('heights')
+  const md = searchParams.get('md')
+  
   if (Array.isArray(fontSize)) {
     throw new Error("Expected a single fontSize");
   }
@@ -20,7 +21,8 @@ export function parseRequest(req: IncomingMessage) {
     throw new Error("Expected a single theme");
   }
 
-  const arr = (pathname || "/").slice(1).split(".");
+  const arr = (pathname || "/").split(".");
+
   let extension = "";
   let text = "";
   if (arr.length === 0) {
@@ -38,9 +40,9 @@ export function parseRequest(req: IncomingMessage) {
     theme: theme === "dark" ? "dark" : "light",
     md: md === "1" || md === "true",
     fontSize: fontSize || "96px",
-    images: getArray(images),
-    widths: getArray(widths),
-    heights: getArray(heights),
+    images: getArray(images!),
+    widths: getArray(widths!),
+    heights: getArray(heights!),
   };
   parsedRequest.images = getDefaultImages(
     parsedRequest.images,
