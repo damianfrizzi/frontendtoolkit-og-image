@@ -8,6 +8,7 @@ export function parseRequest(req: IncomingMessage) {
     req.url?.replace(/&amp;/g, "&").replace(/&amp%3B/g, "&") || "/",
     true
   );
+  console.log(req.url, pathname, query);
   const { fontSize, images, widths, heights, theme, md } = query || {};
 
   if (Array.isArray(fontSize)) {
