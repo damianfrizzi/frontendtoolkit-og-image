@@ -4,7 +4,10 @@ import { ParsedRequest, Theme } from "./types";
 
 export function parseRequest(req: IncomingMessage) {
   console.log("HTTP " + req.url);
-  const { pathname, query } = parse(req.url || "/", true);
+  const { pathname, query } = parse(
+    req.url?.replace(/&amp;/g, "&") || "/",
+    true
+  );
   const { fontSize, images, widths, heights, theme, md } = query || {};
 
   if (Array.isArray(fontSize)) {
