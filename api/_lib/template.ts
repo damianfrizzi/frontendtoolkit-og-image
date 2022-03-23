@@ -78,8 +78,18 @@ function getCss(theme: string, fontSize: string) {
         justify-items: center;
     }
 
+    .logo-image {
+      display: flex;
+      align-items: center;
+    }
+
     .logo {
-        margin: 0 75px;
+        margin: 0 65px;
+    }
+
+    .logo-text {
+      font-family: 'IBM Plex Sans';
+      color: ${foreground};
     }
 
     .plus {
@@ -104,7 +114,7 @@ function getCss(theme: string, fontSize: string) {
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground};
-        line-height: 1.8;
+        line-height: 1.5;
     }`;
 }
 
@@ -129,7 +139,13 @@ export function getHtml(parsedReq: ParsedRequest) {
                 ${images
                   .map(
                     (img, i) =>
-                      getPlusSign(i) + getImage(img, widths[i], heights[i])
+                      getPlusSign(i) +
+                      getImage(
+                        img,
+                        widths[i],
+                        heights[i],
+                        images.length === 1 ? "Frontend Toolkit" : undefined
+                      )
                   )
                   .join("")}
             </div>
@@ -143,14 +159,20 @@ export function getHtml(parsedReq: ParsedRequest) {
 </html>`;
 }
 
-function getImage(src: string, width = "auto", height = "225") {
-  return `<img
-        class="logo"
-        alt="Generated Image"
-        src="${sanitizeHtml(src)}"
-        width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(height)}"
-    />`;
+function getImage(src: string, width = "auto", height = "130", text?: string) {
+  return `<div class="logo-image">
+    <img
+      class="logo"
+      alt="Generated Image"
+      src="${sanitizeHtml(src)}"
+      width="${sanitizeHtml(width)}"
+      height="${sanitizeHtml(height)}" />
+      ${
+        text
+          ? `<span class="logo-text" style="font-size:${height}px">${text}</span>`
+          : ""
+      }
+  </div>`;
 }
 
 function getPlusSign(i: number) {
