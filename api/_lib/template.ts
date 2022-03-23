@@ -22,7 +22,7 @@ function getCss(theme: string, fontSize: string) {
   let radial = "lightgray";
 
   if (theme === "dark") {
-    background = "#111827";
+    background = "#3730a3";
     foreground = "white";
     radial = "#405066";
   }
