@@ -1,9 +1,18 @@
 import { IncomingMessage } from "http";
 import { ParsedRequest, Theme } from "./types";
 
+function fromBinary(encoded: string) {
+  const binary = Buffer.from(encoded.slice(1), "base64").toString();
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < bytes.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return String.fromCharCode(...new Uint16Array(bytes.buffer));
+}
+
 export function parseRequest(req: IncomingMessage) {
   console.log("HTTP " + req.url);
-  const url = Buffer.from((req.url ?? "/").slice(1), "base64").toString();
+  const url = fromBinary(req.url ?? "/");
   const search = url.slice(url.indexOf("?theme"));
   const pathname = url.replace(search, "");
   const searchParams = new URLSearchParams(search);
