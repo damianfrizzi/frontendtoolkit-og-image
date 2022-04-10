@@ -32,7 +32,7 @@ export async function getScreenshotByUrl(
   isDev: boolean
 ) {
   const page = await getPage(isDev);
-  await page.setViewport({ width: 1024, height: 768 });
+  await page.setViewport({ width: 1440, height: 768 });
   await page.goto(url);
   await page.evaluate((theme) => {
     localStorage.setItem("cookieBannerDismissed", "true");
